@@ -1,0 +1,29 @@
+#ifndef _QTUIXMLCLEANER_MAINWINDOW_H_
+#define _QTUIXMLCLEANER_MAINWINDOW_H_
+
+#include <QMainWindow>
+#include <memory>
+
+namespace Ui {
+	class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+	Q_OBJECT
+
+public:
+	explicit MainWindow(QWidget* parent = nullptr);
+	~MainWindow();
+
+private slots:
+	void on_browseInputFileButton_clicked();
+	void on_browseOutputFileButton_clicked();
+	void on_runButton_clicked();
+	void on_closeButton_clicked();
+
+private:
+	std::unique_ptr<Ui::MainWindow> ui;
+};
+
+#endif // _QTUIXMLCLEANER_MAINWINDOW_H_
