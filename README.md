@@ -1,5 +1,7 @@
 # QtUIXmlCleaner
-A small GUI app to clean a Qt UI file so that it is suitable for use in a text-based version control system.
+A small GUI app to clean a Qt UI file so that it is suitable for use in a text-based version control system. It is capable of re-ordering the elements in a QGridLayout to be in row-column order, and of removing some XML properties that are sometimes (though not always!) extraneous. Use caution when removing the properties, and verify that no UI behavior has changed unexpectedly.
+
+![Screenshot of QtUIXmlCleaner](Screenshot.png)
 
 Based on a [discussion at the FreeCAD Forums](https://forum.freecadweb.org/viewtopic.php?f=10&t=54503), and a [Python script](https://github.com/davidosterberg/Qt-UI-file-sorter) by @davidosterberg.
 
@@ -23,7 +25,7 @@ Version 1.0 of the software was developed on Windows 10 using Visual Studio 2019
 1. (Optional) build the PACKAGE target. A distributable installer executable will be created in your build folder.
 
 ### Linux
-You will need a recent C++20 compiler, CMake >= 3.14, and Qt5. 
+You will need a recent C++17 compiler, CMake >= 3.10, and Qt5. 
 1. Clone this repository
 1. Create an empty build directory on your system in a convenient location
 1. In a terminal, change to the build directory
