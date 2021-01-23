@@ -33,7 +33,7 @@ MainWindow::MainWindow(QWidget* parent) :
 
 	// Calculate a default position:
 	QSize defaultSize(597, 209);
-	auto screenSize = screen()->size();
+	auto screenSize = qApp->primaryScreen()->size();
 	QPoint upperLeft(screenSize.width() / 2 - defaultSize.width() / 2, screenSize.height() / 2 - defaultSize.height() / 2);
 
 	settings.beginGroup("MainWindow");
