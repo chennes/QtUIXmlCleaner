@@ -40,10 +40,22 @@ void Cleaner::SetRemoveNativeTrue(bool newValue)
 
 void Cleaner::run()
 {
+
+	if (_infile == _outfile) {
+		// Let's make a backup, just in case...
+		bool copyMade = QFile::copy(_infile, _infile+".original");
+		if (!copyMade) {
+			emit errorOccurred(QString::fromLatin1("Could not make backup of ") + _infile);
+			exit(-1);
+			return;
+		}
+	}
+
 	std::ifstream is(_infile.toStdString());
 	if (!is.good()) {
 		emit errorOccurred(QString::fromLatin1("Could not open file ") + _infile + " for reading.");
 		exit(-1);
+		return;
 	}
 
 	QString fileToWrite;
@@ -52,6 +64,7 @@ void Cleaner::run()
 	if (!temp.isOpen()) {
 		emit errorOccurred(QString::fromLatin1("Failed to open a temporary file."));
 		exit(-1);
+		return;
 	}
 	while (is.good()) {
 		std::string line = getlineWithEnding(is);
@@ -73,6 +86,7 @@ void Cleaner::run()
 		if (!temp2.isOpen()) {
 			emit errorOccurred(QString::fromLatin1("Failed to open second a temporary file."));
 			exit(-1);
+			return;
 		}
 
 		while (is.good()) {
@@ -113,6 +127,7 @@ void Cleaner::run()
 		out.remove();
 		emit errorOccurred(QString::fromLatin1("Could not open output file ") + _outfile + " for writing.");
 		exit(-1);
+		return;
 	}
 
 	emit processComplete();
