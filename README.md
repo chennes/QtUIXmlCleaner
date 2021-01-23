@@ -7,6 +7,8 @@ Based on a [discussion at the FreeCAD Forums](https://forum.freecadweb.org/viewt
 On GitHub navigate to the Releases page: a .exe installer is available for the releases: download and run it. 
 
 ## Building from source
+
+### Windows
 Version 1.0 of the software was developed on Windows 10 using Visual Studio 2019, CMake >=3.14, and Qt5. To build the distributable package you will also need NSIS. To build the source:
 1. Clone this repository
 1. Run CMake on the resulting directory
@@ -19,3 +21,12 @@ Version 1.0 of the software was developed on Windows 10 using Visual Studio 2019
 1. You can now run from the debugger, e.g. by pressing F5, etc.
 1. (Optional) build the INSTALL target. The executable and all necessary auxilliary files will be copied to CMAKE_INSTALL_PREFIX.
 1. (Optional) build the PACKAGE target. A distributable installer executable will be created in your build folder.
+
+### Linux
+You will need a recent C++20 compiler, CMake >= 3.14, and Qt5. 
+1. Clone this repository
+1. Create an empty build directory on your system in a convenient location
+1. In a terminal, change to the build directory
+1. Run `cmake /path/to/clone`
+1. Run `make`
+1. (Optional) Run `make install`
