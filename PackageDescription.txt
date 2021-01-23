@@ -1,0 +1,4 @@
+This app makes a few minor changes to Qt-generated UI files to make them more version
+control friendly. It has options to remove a couple of superfluous XML attributes that
+sometimes get added, and to re-order a QtGridLayout's constituent children to be sorted
+by row and then column in the XML tree, rather than sorted by the order they were added.
