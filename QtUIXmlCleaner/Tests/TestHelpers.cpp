@@ -1,15 +1,9 @@
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/reporters/catch_reporters_all.hpp>
 
 #include "../Helpers.h"
 
 #include <string>
 #include <sstream>
-
-/*
-std::string getlineWithEnding(std::istream& s);
-void RemoveFromString(std::string& line, const std::string& toRemove);
-*/
 
 TEST_CASE("Test getlineWithEnding stops at LF", "[helpers]") {
 	std::string stringWithLF("Foo\nBar");
@@ -37,4 +31,10 @@ TEST_CASE("Test getlineWithEnding stops at EOF", "[helpers]") {
 	std::istringstream is(stringWithEOF);
 	auto line = getlineWithEnding(is);
 	REQUIRE(line == "FooBar");
+}
+
+TEST_CASE("Test removeFromString removes first instance", "[helpers]") {
+	std::string stringToClean("FooBarBaz");
+	RemoveFromString(stringToClean, "Bar");
+	REQUIRE(stringToClean == "FooBaz");
 }

@@ -21,22 +21,19 @@ GridItem::GridItem(const std::string &openTagLine, std::istream& is) :
 	while (is.good()) {
 		if (openTagCounter == 0) {
 			std::smatch columnMatch;
-			if (std::regex_search(openTagLine, columnMatch, columnRegex) && columnMatch.size() == 2) {
+			if (std::regex_search(openTagLine, columnMatch, columnRegex) && columnMatch.size() == 2)
 				_column = atoi(columnMatch[1].str().c_str());
-			}
 
 			std::smatch rowMatch;
-			if (std::regex_search(openTagLine, rowMatch, rowRegex) && rowMatch.size() == 2) {
+			if (std::regex_search(openTagLine, rowMatch, rowRegex) && rowMatch.size() == 2) 
 				_row = atoi(rowMatch[1].str().c_str());
-			}
 
 			openTagCounter = 1;
 			_lines.push_back(openTagLine);
 
-			if (_column == -1 || _row == -1) {
+			if (_column == -1 || _row == -1)
 				// An error has occurred here, this is not a grid item
 				return;
-			}
 		}
 		else {
 			auto line = getlineWithEnding(is);
