@@ -31,4 +31,5 @@ You will need a recent C++17 compiler, CMake >= 3.10, and Qt5.
 1. In a terminal, change to the build directory
 1. Run `cmake /path/to/clone`
 1. Run `make`
+1. (Optional) Run `make test` to verify that everything is working as expected
 1. (Optional) Run `make install`
