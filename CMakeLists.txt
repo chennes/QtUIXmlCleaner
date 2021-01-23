@@ -11,6 +11,8 @@ endif()
 
 project ("QtUIXmlCleaner")
 
+include(CTest)
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 set(PROJECT_VERSION_MAJOR 1)

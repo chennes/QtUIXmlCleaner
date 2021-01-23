@@ -6,6 +6,8 @@ std::string getlineWithEnding(std::istream& s)
 	std::string result;
 	while (s.good()) {
 		char c = s.get();
+		if (!s.good())
+			break; // Do NOT add this character, it's not real, we hit the end of the file
 		result += c;
 		if (c == '\r' && s.peek() == '\n')
 			result += s.get();

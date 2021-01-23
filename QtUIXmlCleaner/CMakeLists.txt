@@ -40,3 +40,7 @@ if(WIN32)
     include(Windeployqt)
     windeployqt(QtUIXmlCleaner)
 endif()
+
+if(BUILD_TESTING)
+  add_subdirectory(Tests)
+endif()
