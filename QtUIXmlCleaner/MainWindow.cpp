@@ -8,6 +8,9 @@
 #include <QSettings>
 #include <QCloseEvent>
 #include <QScreen>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QMimeData>
 
 #include <iostream>
 
@@ -16,6 +19,7 @@ MainWindow::MainWindow(QWidget* parent) :
 	ui(std::make_unique<Ui::MainWindow>())
 {
 	ui->setupUi(this);
+	setWindowIcon(QIcon("ui_icon.svg"));
 	
 	QSettings settings;
 
@@ -112,4 +116,18 @@ void MainWindow::closeEvent(QCloseEvent* event)
 	settings.endGroup();
 	settings.sync();
 	event->accept();
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent* event)
+{
+	if (event->mimeData()->hasUrls())
+		event->acceptProposedAction();
+}
+
+void MainWindow::dropEvent(QDropEvent* event)
+{
+	ui->inputFileLineEdit->setText(event->mimeData()->urls().first().toLocalFile());
+	ui->outputFileLineEdit->setText(event->mimeData()->urls().first().toLocalFile());
+
+	event->acceptProposedAction();
 }

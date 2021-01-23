@@ -19,6 +19,8 @@ public:
 
 protected:
 	void closeEvent(QCloseEvent* event) override;
+	void dragEnterEvent(QDragEnterEvent* event) override;
+	void dropEvent(QDropEvent* event) override;
 
 private slots:
 	void on_browseInputFileButton_clicked();

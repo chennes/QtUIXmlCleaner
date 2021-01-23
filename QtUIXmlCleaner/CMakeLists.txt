@@ -10,7 +10,7 @@ find_package(Qt5 COMPONENTS Widgets Xml REQUIRED)
 # Add source to this project's executable.
 
 set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/QtUIXmlCleaner.rc")
-add_executable (QtUIXmlCleaner 
+add_executable (QtUIXmlCleaner WIN32
     "QtUIXmlCleaner.cpp" 
     "QtUIXmlCleaner.h" 
     "MainWindow.ui" 
