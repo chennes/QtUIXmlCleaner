@@ -25,7 +25,7 @@ Version 1.0 of the software was developed on Windows 10 using Visual Studio 2019
 1. (Optional) build the PACKAGE target. A distributable installer executable will be created in your build folder.
 
 ### Linux
-You will need a recent C++17 compiler, CMake >= 3.10, and Qt5. 
+You will need a recent C++17 compiler, CMake >= 3.11, and Qt5. 
 1. Clone this repository
 1. Create an empty build directory on your system in a convenient location
 1. In a terminal, change to the build directory
