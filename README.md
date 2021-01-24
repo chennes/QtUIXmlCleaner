@@ -6,7 +6,7 @@ A small GUI app to clean a Qt UI file so that it is suitable for use in a text-b
 Based on a [discussion at the FreeCAD Forums](https://forum.freecadweb.org/viewtopic.php?f=10&t=54503), and a [Python script](https://github.com/davidosterberg/Qt-UI-file-sorter) by @davidosterberg.
 
 ## Installing on Windows
-On GitHub navigate to the Releases page: a .exe installer is available for the releases: download and run it. 
+Download either the standalone 7-zip file or the installer executable file from the [releases page](https://github.com/chennes/QtUIXmlCleaner/releases/tag/v1.0.1).
 
 ## Building from source
 
@@ -31,4 +31,5 @@ You will need a recent C++17 compiler, CMake >= 3.10, and Qt5.
 1. In a terminal, change to the build directory
 1. Run `cmake /path/to/clone`
 1. Run `make`
+1. (Optional) Run `make test` to verify that everything is working as expected
 1. (Optional) Run `make install`
