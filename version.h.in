@@ -1,0 +1,3 @@
+const auto QtUIXmlCleaner_VERSION_MAJOR = @QtUIXmlCleaner_VERSION_MAJOR@;
+const auto QtUIXmlCleaner_VERSION_MINOR = @QtUIXmlCleaner_VERSION_MINOR@;
+const auto QtUIXmlCleaner_VERSION_PATCH = @QtUIXmlCleaner_VERSION_PATCH@;

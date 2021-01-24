@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>597</width>
-    <height>209</height>
+    <height>218</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -21,6 +21,21 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="versionLabel">
+      <property name="font">
+       <font>
+        <pointsize>6</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Replaced with version number</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
