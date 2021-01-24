@@ -2,11 +2,11 @@
 # and include sub-projects here.
 #
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
-	message("On ${CMAKE_HOST_SYSTEM_NAME}, CMake 3.14 is the minimum required version.")
 	cmake_minimum_required (VERSION 3.14)
+	# For using generators in the install() command to execute windeployqt
 else()
-	message("On ${CMAKE_HOST_SYSTEM_NAME}, CMake 3.10 is the minimum required version.")
-	cmake_minimum_required (VERSION 3.10)
+	cmake_minimum_required (VERSION 3.11)
+	# For using FetchContent to pull the Catch2 test code from GitHub
 endif()
 
 project ("QtUIXmlCleaner")
