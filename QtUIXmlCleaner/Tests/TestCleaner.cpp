@@ -29,7 +29,7 @@
 using namespace QtXMLCleaner;
 
 TEST_CASE("Test Cleaner creates outfile", "[cleaner]") {
-	Cleaner c("XmlWithGrid.ui", "NewFile.ui.");
+	Cleaner c("XmlWithGrid.ui", "NewFile.ui");
 	c.run(); // Synchronous call
 	QFile testResult("NewFile.ui");
 	REQUIRE(testResult.exists());
