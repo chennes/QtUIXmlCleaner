@@ -6,9 +6,17 @@ A small GUI app to clean a Qt UI file so that it is suitable for use in a text-b
 Based on a [discussion at the FreeCAD Forums](https://forum.freecadweb.org/viewtopic.php?f=10&t=54503), and a [Python script](https://github.com/davidosterberg/Qt-UI-file-sorter) by @davidosterberg.
 
 ## Installing on Windows
-Download either the standalone 7-zip file or the installer executable file from the [releases page](https://github.com/chennes/QtUIXmlCleaner/releases/tag/v1.0.1).
+Download either the standalone 7-zip file or the installer executable file from the [releases page](https://github.com/chennes/QtUIXmlCleaner/releases/tag/v1.0.2).
 
 ## Building from source
+
+### Important CMake options
+This software uses the CMake cross-platform build system. Some CMake variables that control the compilation of various features are:
+* `Qt5_DIR` - The location of the cmake folder in your Qt5 installation.
+* `BUILD_TESTING` - Defaults to true, downloads Catch2 and builds the unit testing framework.
+* `BUILD_DOCUMENTATION` - Defaults to false. if true, and you have Doxygen installed, build the developer documentation.
+* `CMAKE_INSTALL_PREFIX` - If you build the install target, this is the location of the compiled binaries.
+* `WINDEPLOYQT_EXECUTABLE` - Windows only. Sets the location of windeployqt.exe, which you should find in your Qt binaries directory.
 
 ### Windows
 Version 1.0 of the software was developed on Windows 10 using Visual Studio 2019, CMake >=3.14, and Qt5. To build the distributable package you will also need NSIS. To build the source:
