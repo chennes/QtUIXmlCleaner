@@ -23,3 +23,32 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "../Cleaner.h"
+#include <QFile>
+#include <QTemporaryFile>
+
+using namespace QtXMLCleaner;
+
+TEST_CASE("Test Cleaner creates outfile", "[cleaner]") {
+	Cleaner c("XmlWithGrid.ui", "XmlWithGridResult.ui.");
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithGridResult.ui");
+	REQUIRE(testResult.exists());
+	testResult.remove();
+}
+
+TEST_CASE("Test Cleaner sorts grid", "[cleaner]") {
+	Cleaner c("XmlWithGrid.ui","XmlWithGridTest.ui");
+	c.SetSortQGridLayoutChildren(true);
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithGridTest.ui");
+	QFile expectedResult("XmlWithGridClean.ui");
+	REQUIRE(testResult.exists());
+	testResult.open(QIODevice::ReadOnly | QIODevice::Text);
+	REQUIRE(testResult.isOpen());
+	expectedResult.open(QIODevice::ReadOnly | QIODevice::Text);
+
+	auto testContents = testResult.readAll();
+	auto expectedContents = expectedResult.readAll();
+
+	REQUIRE(testContents.compare(expectedContents) == 0);
+}

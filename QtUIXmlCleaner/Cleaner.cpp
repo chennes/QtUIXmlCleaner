@@ -22,10 +22,9 @@
 
 #include "Cleaner.h"
 
-#include <QString>
-#include <QXmlStreamReader>
 #include <QFile>
-#include <QTemporaryFile>
+
+#include <sstream>
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
@@ -39,7 +38,7 @@
 
 using namespace QtXMLCleaner;
 
-Cleaner::Cleaner(const QString& infile, const QString& outfile)
+Cleaner::Cleaner(const std::string& infile, const std::string& outfile)
 {
 	_infile = infile;
 	_outfile = outfile;
@@ -64,93 +63,70 @@ void Cleaner::run()
 {
 
 	if (_infile == _outfile) {
-		// Let's make a backup, just in case...
-		bool copyMade = QFile::copy(_infile, _infile+".original");
-		if (!copyMade) {
-			emit errorOccurred(QString::fromLatin1("Could not make backup of ") + _infile);
-			exit(-1);
-			return;
-		}
+		// Make a backup:
 	}
 
-	std::ifstream is(_infile.toStdString());
+	std::ifstream is(_infile);
 	if (!is.good()) {
-		emit errorOccurred(QString::fromLatin1("Could not open file ") + _infile + " for reading.");
+		emit errorOccurred(std::string("Could not open file ") + _infile + " for reading.");
 		exit(-1);
 		return;
 	}
 
-	QString fileToWrite;
-	QTemporaryFile temp;
-	temp.open();
-	if (!temp.isOpen()) {
-		emit errorOccurred(QString::fromLatin1("Failed to open a temporary file."));
-		exit(-1);
-		return;
-	}
-	while (is.good()) {
+	std::ostringstream firstPassOut;
+	while (is.good() && firstPassOut.good()) {
 		std::string line = getlineWithEnding(is);
 		if (_removeNativeTrue)
 			RemoveNativeTrue(line);
 		if (_removeStdsetZero)
 			RemoveStdsetZero(line);
-		temp.write(line.c_str());
+		firstPassOut.write(line.data(),line.size());
 	}
 	is.close();
-	fileToWrite = temp.fileName();
-	temp.setAutoRemove(false);
-	temp.close();
-	if (_sortQGridLayoutChildren) {
-		is.open(temp.fileName().toStdString());
-		QTemporaryFile temp2;
 
-		temp2.open();
-		if (!temp2.isOpen()) {
-			emit errorOccurred(QString::fromLatin1("Failed to open second a temporary file."));
-			exit(-1);
-			return;
-		}
+	std::istringstream firstPassIn(firstPassOut.str());
+	std::ostringstream secondPassOut;
 
-		while (is.good()) {
-			std::string line = getlineWithEnding(is);
-			temp2.write(line.c_str());
-			if (line.find("class=\"QGridLayout\"") != std::string::npos) {
-				std::set<GridItem> gridItems;
-				while (is.good()) {
-					std::string nextLine = getlineWithEnding(is);
-					if (nextLine.find("</layout>") != std::string::npos) {
-						temp2.write(nextLine.c_str());
-						break;
+	while (firstPassIn.good() && secondPassOut.good()) {
+		std::string line = getlineWithEnding(firstPassIn);
+		secondPassOut.write(line.data(), line.size());
+		if (_sortQGridLayoutChildren && line.find("class=\"QGridLayout\"") != std::string::npos) {
+			std::set<GridItem> gridItems;
+			while (firstPassIn.good()) {
+				std::string nextLine = getlineWithEnding(firstPassIn);
+				if (nextLine.find("</layout>") != std::string::npos) {
+					for (const auto& item : gridItems) {
+						std::string data = item.data();
+						secondPassOut.write(data.data(), data.size());
 					}
-					else if (nextLine.find("<item") != std::string::npos) {
-						gridItems.emplace(nextLine, is);
-					}
-					else {
-						temp2.write(nextLine.c_str());
-					}
+					secondPassOut.write(nextLine.data(), nextLine.size());
+					break;
 				}
-				for (const auto& item : gridItems) {
-					temp2.write(item.data().c_str());
+				else if (nextLine.find("<item") != std::string::npos) {
+					gridItems.emplace(nextLine, firstPassIn);
+				}
+				else {
+					// Some kind of data before the next item? Just write it out now, but it really shouldn't be there
+					secondPassOut.write(nextLine.data(), nextLine.size());
 				}
 			}
 		}
-		temp.setAutoRemove(true);
-		temp2.setAutoRemove(false);
-		fileToWrite = temp2.fileName();
-		temp2.close();
 	}
 
-
-	// Write the file out
-	QFile out(fileToWrite);
-	QFile::remove(_outfile);
-	bool renameWorked = out.rename(_outfile);
-	if (!renameWorked) {
-		out.remove();
-		emit errorOccurred(QString::fromLatin1("Could not open output file ") + _outfile + " for writing.");
+	std::ofstream os(_outfile);
+	if (os.bad()) {
+		emit errorOccurred(std::string("Could not open output file ") + _outfile + " for writing.");
 		exit(-1);
 		return;
 	}
+	os.write(secondPassOut.str().data(), secondPassOut.str().size());
+	
+	if (os.bad()) {
+		emit errorOccurred(std::string("Error writing data to ") + _outfile);
+		exit(-1);
+		return;
+	}
+	os.close();
 
 	emit processComplete();
 }

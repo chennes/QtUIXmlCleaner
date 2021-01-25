@@ -56,7 +56,7 @@ namespace QtXMLCleaner {
 		 * success. Any failures in processing prevent it from being created, or from overwriting
 		 * \a infile if that was what was requested.
 		 */
-		Cleaner(const QString& infile, const QString& outfile);
+		Cleaner(const std::string& infile, const std::string& outfile);
 		
 		~Cleaner() = default;
 		
@@ -116,7 +116,7 @@ namespace QtXMLCleaner {
 		 * \brief Signals failure of the run.
 		 * \param message A text message describing the failure.
 		 */
-		void errorOccurred(QString message);
+		void errorOccurred(const std::string &message);
 
 	private:
 
@@ -127,8 +127,8 @@ namespace QtXMLCleaner {
 		bool _removeStdsetZero = false;
 		bool _removeNativeTrue = false;
 
-		QString _infile;
-		QString _outfile;
+		std::string _infile;
+		std::string _outfile;
 	};
 
 }

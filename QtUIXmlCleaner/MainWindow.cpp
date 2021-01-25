@@ -103,7 +103,7 @@ void MainWindow::on_browseOutputFileButton_clicked()
 void MainWindow::on_runButton_clicked()
 {
 	ui->runButton->setDisabled(true);
-	auto cleaner = new QtXMLCleaner::Cleaner(ui->inputFileLineEdit->text(), ui->outputFileLineEdit->text()); // Deleted via a deleteLater slot
+	auto cleaner = new QtXMLCleaner::Cleaner(ui->inputFileLineEdit->text().toStdString(), ui->outputFileLineEdit->text().toStdString()); // Deleted via a deleteLater slot
 	cleaner->SetSortQGridLayoutChildren(ui->sortQGridLayoutCheckbox->isChecked());
 	cleaner->SetRemoveNativeTrue(ui->removeNativeTrueCheckbox->isChecked());
 	cleaner->SetRemoveStdsetZero(ui->removeStdsetZeroCheckbox->isChecked());
@@ -143,9 +143,9 @@ void MainWindow::handleSuccess()
 	ui->runButton->setEnabled(true);
 }
 
-void MainWindow::handleError(QString message)
+void MainWindow::handleError(const std::string &message)
 {
-	QMessageBox::warning(this, "Processing failed", message, QMessageBox::Close);
+	QMessageBox::warning(this, "Processing failed", QString::fromStdString(message), QMessageBox::Close);
 	ui->runButton->setEnabled(true);
 }
 

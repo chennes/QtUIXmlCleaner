@@ -57,7 +57,7 @@ private slots:
 	void on_runButton_clicked();
 	void on_closeButton_clicked();
 	void handleSuccess();
-	void handleError(QString message);
+	void handleError(const std::string &message);
 
 private:
 	std::unique_ptr<Ui::MainWindow> ui;

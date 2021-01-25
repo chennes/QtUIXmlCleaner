@@ -31,7 +31,23 @@ set(TEST_SRCS
     TestGridItem.cpp
 )
 
+set(TEST_AUX
+    XmlWithGrid.ui
+    XmlWithGridClean.ui
+    XmlWithNative.ui
+    XmlWithNativeClean.ui
+    XmlWithStdset.ui
+    XmlWithStdsetClean.ui
+)
+
 add_executable(tests ${TEST_SRCS} ${APP_SRCS})
 target_link_libraries(tests PUBLIC Qt5::Core PRIVATE Catch2::Catch2WithMain)
+
+add_custom_command(
+        TARGET tests POST_BUILD
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy
+                ${TEST_AUX}
+                ${CMAKE_CURRENT_BINARY_DIR}/)
 
 catch_discover_tests(tests)
