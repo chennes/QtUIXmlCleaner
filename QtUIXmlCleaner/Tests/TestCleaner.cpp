@@ -29,14 +29,14 @@
 using namespace QtXMLCleaner;
 
 TEST_CASE("Test Cleaner creates outfile", "[cleaner]") {
-	Cleaner c("XmlWithGrid.ui", "XmlWithGridResult.ui.");
+	Cleaner c("XmlWithGrid.ui", "NewFile.ui.");
 	c.run(); // Synchronous call
-	QFile testResult("XmlWithGridResult.ui");
+	QFile testResult("NewFile.ui");
 	REQUIRE(testResult.exists());
 	testResult.remove();
 }
 
-TEST_CASE("Test Cleaner sorts grid", "[cleaner]") {
+TEST_CASE("Test Cleaner sorts grid when sort=true", "[cleaner]") {
 	Cleaner c("XmlWithGrid.ui","XmlWithGridTest.ui");
 	c.SetSortQGridLayoutChildren(true);
 	c.run(); // Synchronous call
@@ -51,4 +51,95 @@ TEST_CASE("Test Cleaner sorts grid", "[cleaner]") {
 	auto expectedContents = expectedResult.readAll();
 
 	REQUIRE(testContents.compare(expectedContents) == 0);
+	testResult.remove();
+}
+
+TEST_CASE("Test Cleaner skips grid when sort=false", "[cleaner]") {
+	Cleaner c("XmlWithGrid.ui", "XmlWithGridTest2.ui");
+	c.SetSortQGridLayoutChildren(false);
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithGridTest2.ui");
+	QFile expectedResult("XmlWithGrid.ui");
+	REQUIRE(testResult.exists());
+	testResult.open(QIODevice::ReadOnly | QIODevice::Text);
+	REQUIRE(testResult.isOpen());
+	expectedResult.open(QIODevice::ReadOnly | QIODevice::Text);
+
+	auto testContents = testResult.readAll();
+	auto expectedContents = expectedResult.readAll();
+
+	REQUIRE(testContents.compare(expectedContents) == 0);
+	testResult.remove();
+}
+
+TEST_CASE("Test Cleaner removes stdset=0 when remove=true", "cleaner") {
+	Cleaner c("XmlWithStdset.ui", "XmlWithStdsetTest.ui");
+	c.SetRemoveStdsetZero(true);
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithStdsetTest.ui");
+	QFile expectedResult("XmlWithStdsetClean.ui");
+	REQUIRE(testResult.exists());
+	testResult.open(QIODevice::ReadOnly | QIODevice::Text);
+	REQUIRE(testResult.isOpen());
+	expectedResult.open(QIODevice::ReadOnly | QIODevice::Text);
+
+	auto testContents = testResult.readAll();
+	auto expectedContents = expectedResult.readAll();
+
+	REQUIRE(testContents.compare(expectedContents) == 0);
+	testResult.remove();
+}
+
+TEST_CASE("Test Cleaner removes stdset=0 when remove=false", "cleaner") {
+	Cleaner c("XmlWithStdset.ui", "XmlWithStdsetTest2.ui");
+	c.SetRemoveStdsetZero(false);
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithStdsetTest2.ui");
+	QFile expectedResult("XmlWithStdset.ui");
+	REQUIRE(testResult.exists());
+	testResult.open(QIODevice::ReadOnly | QIODevice::Text);
+	REQUIRE(testResult.isOpen());
+	expectedResult.open(QIODevice::ReadOnly | QIODevice::Text);
+
+	auto testContents = testResult.readAll();
+	auto expectedContents = expectedResult.readAll();
+
+	REQUIRE(testContents.compare(expectedContents) == 0);
+	testResult.remove();
+}
+
+TEST_CASE("Test Cleaner removes native=true when remove=true", "cleaner") {
+	Cleaner c("XmlWithNative.ui", "XmlWithNativeTest.ui");
+	c.SetRemoveNativeTrue(true);
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithNativeTest.ui");
+	QFile expectedResult("XmlWithNativeClean.ui");
+	REQUIRE(testResult.exists());
+	testResult.open(QIODevice::ReadOnly | QIODevice::Text);
+	REQUIRE(testResult.isOpen());
+	expectedResult.open(QIODevice::ReadOnly | QIODevice::Text);
+
+	auto testContents = testResult.readAll();
+	auto expectedContents = expectedResult.readAll();
+
+	REQUIRE(testContents.compare(expectedContents) == 0);
+	testResult.remove();
+}
+
+TEST_CASE("Test Cleaner removes native=true when remove=false", "cleaner") {
+	Cleaner c("XmlWithNative.ui", "XmlWithNativeTest2.ui");
+	c.SetRemoveNativeTrue(false);
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithNativeTest2.ui");
+	QFile expectedResult("XmlWithNative.ui");
+	REQUIRE(testResult.exists());
+	testResult.open(QIODevice::ReadOnly | QIODevice::Text);
+	REQUIRE(testResult.isOpen());
+	expectedResult.open(QIODevice::ReadOnly | QIODevice::Text);
+
+	auto testContents = testResult.readAll();
+	auto expectedContents = expectedResult.readAll();
+
+	REQUIRE(testContents.compare(expectedContents) == 0);
+	testResult.remove();
 }
