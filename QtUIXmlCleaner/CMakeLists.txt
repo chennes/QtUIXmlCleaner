@@ -68,7 +68,6 @@ if(WIN32)
     windeployqt(QtUIXmlCleaner)
 endif()
 
-option(BUILD_TESTING "Build the test suite." OFF)
 if(BUILD_TESTING)
   add_subdirectory(Tests)
 endif()

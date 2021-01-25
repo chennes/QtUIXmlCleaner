@@ -40,6 +40,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 set(CMAKE_CXX_STANDARD 20) #Preferred, but not required (C++17 is required)
 
+enable_testing()
+
 # Include sub-projects.
 add_subdirectory ("QtUIXmlCleaner")
 

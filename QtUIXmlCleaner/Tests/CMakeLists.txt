@@ -50,4 +50,5 @@ add_custom_command(
                 ${TEST_AUX}
                 ${CMAKE_CURRENT_BINARY_DIR}/)
 
+
 catch_discover_tests(tests)
