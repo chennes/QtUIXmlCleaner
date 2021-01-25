@@ -32,6 +32,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <filesystem>
 
 #include "Helpers.h"
 #include "GridItem.h"
@@ -64,6 +65,14 @@ void Cleaner::run()
 
 	if (_infile == _outfile) {
 		// Make a backup:
+		try {
+			std::filesystem::copy(_infile, _infile + ".backup");
+		}
+		catch (...) {
+			emit errorOccurred(std::string("Could not make a backup of ") + _infile);
+			exit(-1);
+			return;
+		}
 	}
 
 	std::ifstream is(_infile);

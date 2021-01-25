@@ -36,6 +36,14 @@ TEST_CASE("Test Cleaner creates outfile", "[cleaner]") {
 	testResult.remove();
 }
 
+TEST_CASE("Test Cleaner creates backup", "[cleaner]") {
+	Cleaner c("XmlWithGrid.ui", "XmlWithGrid.ui");
+	c.run(); // Synchronous call
+	QFile testResult("XmlWithGrid.ui.backup");
+	REQUIRE(testResult.exists());
+	testResult.remove();
+}
+
 TEST_CASE("Test Cleaner sorts grid when sort=true", "[cleaner]") {
 	Cleaner c("XmlWithGrid.ui","XmlWithGridTest.ui");
 	c.SetSortQGridLayoutChildren(true);
