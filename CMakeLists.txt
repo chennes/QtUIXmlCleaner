@@ -38,7 +38,13 @@ configure_file(version.h.in version.h)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-set(CMAKE_CXX_STANDARD 20) #Preferred, but not required (C++17 is required)
+option(CPP20 "Activate C++20 code paths." OFF)
+if(CPP20)
+	set(CMAKE_CXX_STANDARD 20)
+else()
+	set(CMAKE_CXX_STANDARD 17)
+endif()
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 enable_testing()
 
