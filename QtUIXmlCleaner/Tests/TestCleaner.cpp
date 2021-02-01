@@ -28,6 +28,21 @@
 
 using namespace QtXMLCleaner;
 
+bool bytesAreEqual(const QByteArray &a, const QByteArray &b) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+	return a.compare(b) == 0;
+#else
+	if (a.size() == b.size()) {
+		for (int byte = 0; byte < a.size(); ++byte) {
+			if (a[byte] != b[byte])
+				return false;
+		}
+		return true;
+	}
+	return false;
+#endif
+}
+
 TEST_CASE("Test Cleaner creates outfile", "[cleaner]") {
 	Cleaner c("XmlWithGrid.ui", "NewFile.ui");
 	c.run(); // Synchronous call
@@ -58,7 +73,7 @@ TEST_CASE("Test Cleaner sorts grid when sort=true", "[cleaner]") {
 	auto testContents = testResult.readAll();
 	auto expectedContents = expectedResult.readAll();
 
-	REQUIRE(testContents.compare(expectedContents) == 0);
+	REQUIRE(bytesAreEqual(testContents, expectedContents));
 	testResult.remove();
 }
 
@@ -76,7 +91,7 @@ TEST_CASE("Test Cleaner skips grid when sort=false", "[cleaner]") {
 	auto testContents = testResult.readAll();
 	auto expectedContents = expectedResult.readAll();
 
-	REQUIRE(testContents.compare(expectedContents) == 0);
+	REQUIRE(bytesAreEqual(testContents, expectedContents));
 	testResult.remove();
 }
 
@@ -94,7 +109,7 @@ TEST_CASE("Test Cleaner removes stdset=0 when remove=true", "cleaner") {
 	auto testContents = testResult.readAll();
 	auto expectedContents = expectedResult.readAll();
 
-	REQUIRE(testContents.compare(expectedContents) == 0);
+	REQUIRE(bytesAreEqual(testContents, expectedContents));
 	testResult.remove();
 }
 
@@ -112,7 +127,7 @@ TEST_CASE("Test Cleaner removes stdset=0 when remove=false", "cleaner") {
 	auto testContents = testResult.readAll();
 	auto expectedContents = expectedResult.readAll();
 
-	REQUIRE(testContents.compare(expectedContents) == 0);
+	REQUIRE(bytesAreEqual(testContents, expectedContents));
 	testResult.remove();
 }
 
@@ -130,7 +145,7 @@ TEST_CASE("Test Cleaner removes native=true when remove=true", "cleaner") {
 	auto testContents = testResult.readAll();
 	auto expectedContents = expectedResult.readAll();
 
-	REQUIRE(testContents.compare(expectedContents) == 0);
+	REQUIRE(bytesAreEqual(testContents, expectedContents));
 	testResult.remove();
 }
 
@@ -148,6 +163,6 @@ TEST_CASE("Test Cleaner removes native=true when remove=false", "cleaner") {
 	auto testContents = testResult.readAll();
 	auto expectedContents = expectedResult.readAll();
 
-	REQUIRE(testContents.compare(expectedContents) == 0);
+	REQUIRE(bytesAreEqual(testContents, expectedContents));
 	testResult.remove();
 }
